@@ -1,14 +1,6 @@
-FROM python:alpine3.7
+FROM openjdk
 
-# Install packages
-RUN apk add --no-cache --update postgresql-dev gcc python3-dev \
-                                musl-dev openblas openblas-dev
-RUN apk add --no-cache --virtual .build-deps g++
+COPY apache-storm-1.1.1.tar.gz /opt/storm.tar.gz
+RUN tar -xf /opt/storm.tar.gz
 
-RUN ln -s /usr/include/locale.h /usr/include/xlocale.h 
-
-RUN pip3 install --upgrade pip
-RUN pip3 install scipy
-RUN pip3 install pandas
-
-WORKDIR /opt/app
+ENTRYPOINT ["/apache-storm-1.1.1/bin/storm"]
